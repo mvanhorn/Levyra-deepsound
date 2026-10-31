@@ -4,14 +4,33 @@ import com.luc4n3x.levyra.domain.LevyraLanguageCatalog
 import com.luc4n3x.levyra.ui.i18n.LevyraStrings
 import com.luc4n3x.levyra.ui.i18n.SHARE_MOMENT_TIME_TOKEN
 import com.luc4n3x.levyra.ui.i18n.shareMomentCopy
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import java.util.Locale
 
 class PlayerShareMomentTest {
+
+    private lateinit var previousDefaultLocale: Locale
+    private lateinit var previousFormatLocale: Locale
+
+    @Before
+    fun pinAsciiTimestampLocale() {
+        previousDefaultLocale = Locale.getDefault()
+        previousFormatLocale = Locale.getDefault(Locale.Category.FORMAT)
+        Locale.setDefault(Locale.US)
+        Locale.setDefault(Locale.Category.FORMAT, Locale.US)
+    }
+
+    @After
+    fun restoreLocale() {
+        Locale.setDefault(previousDefaultLocale)
+        Locale.setDefault(Locale.Category.FORMAT, previousFormatLocale)
+    }
 
     @Test
     fun momentIsOfferedOnlyAfterTheOpeningSecondsAndBeforeTheEnd() {
